@@ -1,0 +1,17 @@
+{
+  "name": "My Quiz Challenge",
+  "short_name": "QuizChallenge",
+  "description": "A modern bilingual general knowledge quiz created by Mohanad.",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#22c55e",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icons/controller-green.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Quiz Challenge</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json" />
+  <script defer src="script.js"></script>
+</head>
+<body>
+  <div id="splash">
+    <img src="icons/controller-green.svg" alt="Controller Icon" class="logo" />
+    <h1 class="glow">My Quiz Challenge</h1>
+    <p>Created by Mohanad</p>
+  </div>
+
+  <div id="app" class="hidden">
+    <header>
+      <button id="langToggle">🇬🇧 EN</button>
+      <h2 id="gameTitle">My Quiz Challenge</h2>
+    </header>
+
+    <main id="quiz-container">
+      <div id="question-box">
+        <h3 id="question-text"></h3>
+      </div>
+      <div id="choices"></div>
+      <div id="progress-bar-container">
+        <div id="progress-bar"></div>
+      </div>
+      <button id="next-btn" class="hidden">Next</button>
+    </main>
+
+    <div id="score-screen" class="hidden">
+      <h2 id="final-score"></h2>
+      <button id="share-btn">Share Your Score</button>
+      <button id="restart-btn">Play Again</button>
+    </div>
+  </div>
+</body>
+</html>

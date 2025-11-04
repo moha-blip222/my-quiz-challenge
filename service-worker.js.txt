@@ -1,0 +1,47 @@
+/* ===== My Quiz Challenge - service-worker.js ===== */
+
+const CACHE_NAME = "my-quiz-challenge-v1";
+const FILES_TO_CACHE = [
+  "./",
+  "./index.html",
+  "./style.css",
+  "./script.js",
+  "./manifest.json",
+  "./icons/controller-green.svg"
+];
+
+// Install Service Worker and Cache Files
+self.addEventListener("install", event => {
+  event.waitUntil(
+    caches.open(CACHE_NAME).then(cache => {
+      console.log("Caching all files for offline use...");
+      return cache.addAll(FILES_TO_CACHE);
+    })
+  );
+});
+
+// Activate Service Worker and Remove Old Caches
+self.addEventListener("activate", event => {
+  event.waitUntil(
+    caches.keys().then(keys => {
+      return Promise.all(
+        keys.map(key => {
+          if (key !== CACHE_NAME) {
+            console.log("Deleting old cache:", key);
+            return caches.delete(key);
+          }
+        })
+      );
+    })
+  );
+  return self.clients.claim();
+});
+
+// Fetch Files (Offline First)
+self.addEventListener("fetch", event => {
+  event.respondWith(
+    caches.match(event.request).then(response => {
+      return response || fetch(event.request);
+    })
+  );
+});

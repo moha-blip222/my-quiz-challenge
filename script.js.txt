@@ -1,0 +1,152 @@
+/* ===== My Quiz Challenge - script.js ===== */
+
+const app = document.getElementById("app");
+const splash = document.getElementById("splash");
+const langToggle = document.getElementById("langToggle");
+const questionText = document.getElementById("question-text");
+const choicesContainer = document.getElementById("choices");
+const nextBtn = document.getElementById("next-btn");
+const progressBar = document.getElementById("progress-bar");
+const scoreScreen = document.getElementById("score-screen");
+const finalScore = document.getElementById("final-score");
+const restartBtn = document.getElementById("restart-btn");
+const shareBtn = document.getElementById("share-btn");
+
+let currentQuestion = 0;
+let score = 0;
+let questions = [];
+let currentLang = "en";
+let answered = false;
+
+/* ===== QUESTIONS ===== */
+const questionSets = {
+  en: [
+    { q: "What is the capital of France?", a: ["Paris", "London", "Berlin", "Madrid"], correct: 0 },
+    { q: "Which planet is known as the Red Planet?", a: ["Mars", "Venus", "Jupiter", "Mercury"], correct: 0 },
+    { q: "Who wrote 'Romeo and Juliet'?", a: ["Shakespeare", "Hemingway", "Dickens", "Austen"], correct: 0 },
+    { q: "What gas do plants absorb?", a: ["CO2", "Oxygen", "Nitrogen", "Hydrogen"], correct: 0 },
+    { q: "How many continents are there?", a: ["5", "6", "7", "8"], correct: 2 },
+    // ... imagine here 150+ total mixed difficulty English questions
+  ],
+  ar: [
+    { q: "ما عاصمة فرنسا؟", a: ["باريس", "لندن", "برلين", "مدريد"], correct: 0 },
+    { q: "أي كوكب يُعرف بالكوكب الأحمر؟", a: ["المريخ", "الزهرة", "المشتري", "عطارد"], correct: 0 },
+    { q: "من كتب 'روميو وجولييت'؟", a: ["شكسبير", "هيمنغواي", "ديكنز", "أوستن"], correct: 0 },
+    { q: "ما الغاز الذي تمتصه النباتات؟", a: ["ثاني أكسيد الكربون", "الأكسجين", "النيتروجين", "الهيدروجين"], correct: 0 },
+    { q: "كم عدد القارات؟", a: ["5", "6", "7", "8"], correct: 2 },
+    // ... imagine here 150+ total mixed difficulty Arabic questions
+  ]
+};
+
+/* ===== START AFTER SPLASH ===== */
+setTimeout(() => {
+  splash.classList.add("hidden");
+  app.classList.remove("hidden");
+  startQuiz();
+}, 4000);
+
+/* ===== START QUIZ ===== */
+function startQuiz() {
+  questions = [...questionSets[currentLang]];
+  currentQuestion = 0;
+  score = 0;
+  scoreScreen.classList.add("hidden");
+  nextBtn.classList.add("hidden");
+  showQuestion();
+  updateProgress();
+}
+
+/* ===== SHOW QUESTION ===== */
+function showQuestion() {
+  answered = false;
+  const q = questions[currentQuestion];
+  questionText.textContent = q.q;
+  choicesContainer.innerHTML = "";
+
+  q.a.forEach((choice, index) => {
+    const btn = document.createElement("button");
+    btn.textContent = choice;
+    btn.classList.add("choice");
+    btn.addEventListener("click", () => selectAnswer(index));
+    choicesContainer.appendChild(btn);
+  });
+}
+
+/* ===== SELECT ANSWER ===== */
+function selectAnswer(index) {
+  if (answered) return;
+  answered = true;
+
+  const q = questions[currentQuestion];
+  const choiceBtns = document.querySelectorAll(".choice");
+
+  choiceBtns.forEach((btn, i) => {
+    if (i === q.correct) btn.classList.add("correct");
+    else if (i === index) btn.classList.add("wrong");
+    btn.disabled = true;
+  });
+
+  if (index === q.correct) score++;
+
+  nextBtn.classList.remove("hidden");
+}
+
+/* ===== NEXT QUESTION ===== */
+nextBtn.addEventListener("click", () => {
+  currentQuestion++;
+  if (currentQuestion < questions.length) {
+    showQuestion();
+    updateProgress();
+    nextBtn.classList.add("hidden");
+  } else {
+    showScore();
+  }
+});
+
+/* ===== UPDATE PROGRESS BAR ===== */
+function updateProgress() {
+  const progress = ((currentQuestion) / questions.length) * 100;
+  progressBar.style.width = `${progress}%`;
+}
+
+/* ===== SHOW SCORE ===== */
+function showScore() {
+  questionText.textContent = "";
+  choicesContainer.innerHTML = "";
+  progressBar.style.width = "100%";
+  nextBtn.classList.add("hidden");
+
+  finalScore.textContent = `${currentLang === "en" ? "Your Score:" : "نتيجتك:"} ${score} / ${questions.length}`;
+  scoreScreen.classList.remove("hidden");
+}
+
+/* ===== RESTART ===== */
+restartBtn.addEventListener("click", () => {
+  startQuiz();
+});
+
+/* ===== LANGUAGE TOGGLE ===== */
+langToggle.addEventListener("click", () => {
+  currentLang = currentLang === "en" ? "ar" : "en";
+  document.body.dir = currentLang === "ar" ? "rtl" : "ltr";
+  langToggle.textContent = currentLang === "en" ? "🇬🇧 EN" : "🇸🇦 AR";
+  startQuiz();
+});
+
+/* ===== SHARE SCORE ===== */
+shareBtn.addEventListener("click", async () => {
+  const text =
+    currentLang === "en"
+      ? `I scored ${score}/${questions.length} on My Quiz Challenge by Mohanad! 🎮💚`
+      : `لقد حصلت على ${score}/${questions.length} في تحدي الاختبار من محند! 🎮💚`;
+
+  if (navigator.share) {
+    await navigator.share({
+      title: "My Quiz Challenge",
+      text: text,
+      url: window.location.href,
+    });
+  } else {
+    alert(text);
+  }
+});

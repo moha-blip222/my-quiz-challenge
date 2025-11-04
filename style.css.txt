@@ -1,0 +1,168 @@
+/* ===== My Quiz Challenge - Style.css ===== */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+:root {
+  --green: #22c55e;
+  --black: #000000;
+  --gray: #1a1a1a;
+  --white: #f0f0f0;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background-color: var(--black);
+  color: var(--white);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.hidden {
+  display: none;
+}
+
+/* Splash Screen */
+#splash {
+  text-align: center;
+  animation: fadeOut 2s ease 2s forwards;
+}
+
+#splash .logo {
+  width: 120px;
+  height: 120px;
+  filter: drop-shadow(0 0 15px var(--green));
+}
+
+.glow {
+  color: var(--green);
+  text-shadow: 0 0 15px var(--green);
+  font-size: 2.5em;
+  margin-top: 0.5em;
+}
+
+#splash p {
+  color: #ccc;
+  margin-top: 0.3em;
+}
+
+/* App Container */
+#app {
+  max-width: 600px;
+  width: 90%;
+  text-align: center;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5em;
+}
+
+#langToggle {
+  background: transparent;
+  border: 2px solid var(--green);
+  color: var(--green);
+  padding: 0.4em 0.8em;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+#langToggle:hover {
+  background: var(--green);
+  color: var(--black);
+}
+
+#gameTitle {
+  font-size: 1.5em;
+  color: var(--green);
+  text-shadow: 0 0 8px var(--green);
+}
+
+/* Question Area */
+#question-box {
+  margin-bottom: 1em;
+}
+
+#choices {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8em;
+}
+
+.choice {
+  background: var(--gray);
+  border: 2px solid var(--green);
+  color: var(--white);
+  padding: 0.8em;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.choice:hover {
+  background: var(--green);
+  color: var(--black);
+}
+
+.correct {
+  background: var(--green) !important;
+  color: var(--black);
+}
+
+.wrong {
+  background: #ff3b3b !important;
+  color: var(--white);
+}
+
+/* Progress Bar */
+#progress-bar-container {
+  background: #222;
+  height: 10px;
+  border-radius: 5px;
+  margin: 1em 0;
+  overflow: hidden;
+}
+
+#progress-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--green);
+  transition: width 0.3s ease-in-out;
+}
+
+/* Buttons */
+#next-btn, #restart-btn, #share-btn {
+  background: var(--green);
+  color: var(--black);
+  border: none;
+  padding: 0.8em 1.4em;
+  margin-top: 1em;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+#next-btn:hover, #restart-btn:hover, #share-btn:hover {
+  background: #28e06c;
+}
+
+/* Fade Animations */
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
